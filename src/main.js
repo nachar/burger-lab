@@ -131,7 +131,7 @@ addFlat(1.9, 0.18, "#e63946");
 addFlat(2.3, 0.25, "#3a5a40");
 
 // top bun
-addTopBun(2.2, 0.7, "#d4a373");
+addTopBun(2.2, 1, "#d4a373");
 
 
 // animation

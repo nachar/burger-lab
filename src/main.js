@@ -53,24 +53,93 @@ function createIngredient(radius, height, color, y){
     burger.add(mesh);
 }
 
+function createTopBun(radius, height, color, yBottom) {
+    const baseHeight = Math.min(0.2, height * 0.3);
+    const domeHeight = height - baseHeight;
+    const material = new THREE.MeshStandardMaterial({ color });
+    const group = new THREE.Group();
+
+    const baseGeometry = new THREE.CylinderGeometry(radius, radius, baseHeight, 32);
+    const baseMesh = new THREE.Mesh(baseGeometry, material);
+    baseMesh.position.y = yBottom + baseHeight / 2;
+    group.add(baseMesh);
+
+    const domeGeometry = new THREE.SphereGeometry(
+        radius,
+        32,
+        16,
+        0,
+        Math.PI * 2,
+        0,
+        Math.PI / 2
+    );
+    domeGeometry.scale(1, domeHeight / radius, 1);
+    const domeMesh = new THREE.Mesh(domeGeometry, material);
+    domeMesh.position.y = yBottom + baseHeight;
+    group.add(domeMesh);
+
+    burger.add(group);
+}
+
+function createBottomBun(radius, height, color, yBottom) {
+    const baseHeight = Math.min(0.2, height * 0.3);
+    const domeHeight = height - baseHeight;
+    const material = new THREE.MeshStandardMaterial({ color });
+    const group = new THREE.Group();
+
+    const domeGeometry = new THREE.SphereGeometry(
+        radius,
+        32,
+        16,
+        0,
+        Math.PI * 2,
+        Math.PI / 2,
+        Math.PI / 2
+    );
+    domeGeometry.scale(1, domeHeight / radius, 1);
+    const domeMesh = new THREE.Mesh(domeGeometry, material);
+    domeMesh.position.y = yBottom + domeHeight;
+    group.add(domeMesh);
+
+    const baseGeometry = new THREE.CylinderGeometry(radius, radius, baseHeight, 32);
+    const baseMesh = new THREE.Mesh(baseGeometry, material);
+    baseMesh.position.y = yBottom + domeHeight + baseHeight / 2;
+    group.add(baseMesh);
+
+    burger.add(group);
+}
+let stackY = 0;
+const addFlat = (radius, height, color) => {
+    const y = stackY + height / 2;
+    createIngredient(radius, height, color, y);
+    stackY += height;
+};
+const addBottomBun = (radius, height, color) => {
+    createBottomBun(radius, height, color, stackY);
+    stackY += height;
+};
+const addTopBun = (radius, height, color) => {
+    createTopBun(radius, height, color, stackY);
+    stackY += height;
+};
 
 // bottom bun
-createIngredient(2.2, 0.6, "#d4a373", 0);
+addBottomBun(2.2, 0.6, "#d4a373");
 
 // patty
-createIngredient(2.0, 0.4, "#5a3a1b", 0.5);
+addFlat(2.0, 0.4, "#5a3a1b");
 
 // cheese
-createIngredient(2.1, 0.12, "#ffcc33", 0.75);
+addFlat(2.1, 0.12, "#ffcc33");
 
 // tomato
-createIngredient(1.9, 0.18, "#e63946", 0.95);
+addFlat(1.9, 0.18, "#e63946");
 
 // lettuce
-createIngredient(2.3, 0.25, "#3a5a40", 1.15);
+addFlat(2.3, 0.25, "#3a5a40");
 
 // top bun
-createIngredient(2.2, 0.7, "#d4a373", 1.55);
+addTopBun(2.2, 0.7, "#d4a373");
 
 
 // animation

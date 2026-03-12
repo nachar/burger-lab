@@ -104,41 +104,10 @@ function createTopBun(radius, height, color, yBottom) {
     burger.add(group);
 }
 
-function createBottomBun(radius, height, color, yBottom) {
-    const baseHeight = Math.min(0.2, height * 0.3);
-    const domeHeight = height - baseHeight;
-    const material = new THREE.MeshStandardMaterial({ color });
-    const group = new THREE.Group();
-
-    const domeGeometry = new THREE.SphereGeometry(
-        radius,
-        32,
-        16,
-        0,
-        Math.PI * 2,
-        Math.PI / 2,
-        Math.PI / 2
-    );
-    domeGeometry.scale(1, domeHeight / radius, 1);
-    const domeMesh = new THREE.Mesh(domeGeometry, material);
-    domeMesh.position.y = yBottom + domeHeight;
-    group.add(domeMesh);
-
-    const baseGeometry = new THREE.CylinderGeometry(radius, radius, baseHeight, 32);
-    const baseMesh = new THREE.Mesh(baseGeometry, material);
-    baseMesh.position.y = yBottom + domeHeight + baseHeight / 2;
-    group.add(baseMesh);
-
-    burger.add(group);
-}
 let stackY = 0;
 const addFlat = (radius, height, color) => {
     const y = stackY + height / 2;
     createIngredient(radius, height, color, y);
-    stackY += height;
-};
-const addBottomBun = (radius, height, color) => {
-    createBottomBun(radius, height, color, stackY);
     stackY += height;
 };
 const addTopBun = (radius, height, color) => {
@@ -147,7 +116,7 @@ const addTopBun = (radius, height, color) => {
 };
 
 // bottom bun
-addBottomBun(2.2, 0.6, "#d4a373");
+addFlat(2.2, 0.4, "#d4a373");
 
 // patty
 addFlat(2.0, 0.4, "#5a3a1b");

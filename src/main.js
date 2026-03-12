@@ -78,6 +78,29 @@ function createTopBun(radius, height, color, yBottom) {
     domeMesh.position.y = yBottom + baseHeight;
     group.add(domeMesh);
 
+    const seedGeometry = new THREE.SphereGeometry(0.06, 8, 6);
+    seedGeometry.scale(1, 0.5, 1.8);
+    const seedMaterial = new THREE.MeshStandardMaterial({ color: "#f5deb3" });
+
+    for (let i = 0; i < 35; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.random() * (Math.PI / 3);
+
+        const x = radius * Math.sin(phi) * Math.cos(theta);
+        const z = radius * Math.sin(phi) * Math.sin(theta);
+        const y = domeHeight * Math.cos(phi);
+
+        const seed = new THREE.Mesh(seedGeometry, seedMaterial);
+        seed.position.set(x, yBottom + baseHeight + y, z);
+        seed.rotation.set(
+            Math.random() * 0.6,
+            Math.random() * Math.PI,
+            Math.random() * 0.6
+        );
+
+        group.add(seed);
+    }
+
     burger.add(group);
 }
 
